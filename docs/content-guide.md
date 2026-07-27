@@ -1,6 +1,6 @@
-# CONTENT_GUIDE.md: Editing site content
+# Content guide
 
-All editorial content lives in typed TypeScript data files under `src/data/`. There is no CMS and no database (see PRODUCT.md for why a lightweight local-content approach was chosen deliberately for launch). Editing a data file and saving it is the entire workflow; TypeScript will flag a missing required field at build time rather than letting a broken page ship silently.
+All editorial content lives in typed TypeScript data files under `src/data/`. There is no CMS and no database (see `product.md` for why a lightweight local-content approach was chosen deliberately for launch). Editing a data file and saving it is the entire workflow; TypeScript will flag a missing required field at build time rather than letting a broken page ship silently.
 
 ## Services: `src/data/services.ts`
 

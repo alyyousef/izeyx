@@ -221,9 +221,9 @@ p {
  * Typography roles. Two families carry two different jobs: the serif
  * (.text-display / .text-heading) is reserved for the hero and major
  * section headings; every card title, list item, and in-page subheading
- * uses the sans (.text-subheading / .text-title), matching Impeccable's
+ * uses the sans (.text-subheading / .text-title), following the project's
  * guidance against loading every heading with one loud display face.
- * See docs/DESIGN.md §2 for the full rationale and role table.
+ * See docs/design.md §2 for the full rationale and role table.
  */
 .text-display {
   font-family: var(--font-display);
@@ -271,7 +271,7 @@ p {
    placeholder tags. Sentence case, no letter-spacing: an earlier version of
    this class used uppercase + wide tracking, which (combined with sitting
    over every heading as a kicker) read as a template default. Removed; see
-   docs/DESIGN.md §2. */
+   docs/design.md §2. */
 .label {
   font-family: var(--font-sans);
   font-weight: 500;

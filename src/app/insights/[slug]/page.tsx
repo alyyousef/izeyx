@@ -6,7 +6,7 @@ import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
 import { TableOfContents } from "@/components/sections/TableOfContents";
 import { ArticleBody } from "@/components/sections/ArticleBody";
 import { InsightCard } from "@/components/sections/InsightCard";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { insightArticles, getInsightBySlug, getRelatedInsights } from "@/data/insights";
 import { buildMetadata, articleSchema, breadcrumbSchema } from "@/lib/seo";
 
@@ -87,7 +87,7 @@ export default async function InsightArticlePage({ params }: { params: Promise<P
         </Section>
       ) : null}
 
-      <CTASection
+      <CtaSection
         heading="Want to talk through how this applies to your business?"
         description="Book a discovery call. It's a working conversation, not a sales pitch."
       />

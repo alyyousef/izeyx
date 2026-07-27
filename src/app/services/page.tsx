@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { ServiceRow } from "@/components/sections/ServiceRow";
 import { services } from "@/data/services";
 import { buildMetadata } from "@/lib/seo";
@@ -60,7 +60,7 @@ export default function ServicesPage() {
         </ul>
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="Tell us what's slowing the business down, and we'll place it on the map."
         description="A discovery call is a conversation, not a sales pitch. We'll help identify which services actually apply before recommending anything."
       />

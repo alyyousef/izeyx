@@ -5,8 +5,8 @@ import { SectionHeader } from "@/components/ui/SectionHeader";
 import { Button } from "@/components/ui/Button";
 import { TextLink } from "@/components/ui/TextLink";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
-import { CTASection } from "@/components/sections/CTASection";
-import { FAQList } from "@/components/sections/FAQList";
+import { CtaSection } from "@/components/sections/CtaSection";
+import { FaqList } from "@/components/sections/FaqList";
 import { WorkflowDiagram } from "@/components/diagrams/WorkflowDiagram";
 import { SystemDiagram } from "@/components/diagrams/SystemDiagram";
 import { services, getServiceBySlug, getRelatedServices } from "@/data/services";
@@ -161,7 +161,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
       <Section tone="light" className="border-t border-border py-16 md:py-20">
         <SectionHeader heading="Frequently asked questions" />
         <div className="mt-8">
-          <FAQList faqs={service.faqs} />
+          <FaqList faqs={service.faqs} />
         </div>
       </Section>
 
@@ -181,7 +181,7 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
         </Section>
       ) : null}
 
-      <CTASection
+      <CtaSection
         heading="Ready to talk through your specific situation?"
         description="A discovery call is a working conversation about your operations, not a scripted sales pitch."
         primaryHref={`/contact?service=${service.slug}`}

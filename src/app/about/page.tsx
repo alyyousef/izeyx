@@ -3,7 +3,7 @@ import { LocationMap } from "@/components/media/LocationMap";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { siteConfig } from "@/lib/site-config";
 import { buildMetadata } from "@/lib/seo";
 
@@ -159,7 +159,7 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="Want to know more about how we work?"
         description="A discovery call is the fastest way to understand our approach and whether it fits your situation."
       />

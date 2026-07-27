@@ -7,7 +7,7 @@ export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
 export default async function OpengraphImage() {
-  const logoBuffer = await readFile(path.join(process.cwd(), "public/images/brand/izeyx-logomark-dark.png"));
+  const logoBuffer = await readFile(path.join(process.cwd(), "public/images/brand/izeyx-logo-white.png"));
   const logoSrc = `data:image/png;base64,${logoBuffer.toString("base64")}`;
 
   return new ImageResponse(

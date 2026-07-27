@@ -2,11 +2,11 @@
 
 ## 1. Project overview
 
-The complete marketing website for IZEYX, a B2B digital transformation and technology services company. Built with Next.js App Router, TypeScript, and Tailwind CSS v4. Full design rationale lives in [DESIGN.md](docs/DESIGN.md); product/business context lives in [PRODUCT.md](docs/PRODUCT.md).
+The complete marketing website for IZEYX, a B2B digital transformation and technology services company. Built with Next.js App Router, TypeScript, and Tailwind CSS v4. Full design rationale lives in the [design system](docs/design.md); product/business context lives in the [product brief](docs/product.md).
 
 ## 2. Business overview
 
-IZEYX helps growing businesses replace fragmented, manual ways of working with connected digital systems, including websites, custom software, automation, AI agents, systems integration, and data/analytics, delivered as one coherent operating layer rather than disconnected purchases. The site's job is to generate qualified B2B enquiries via the "Book a discovery call" conversion path. See [PRODUCT.md](docs/PRODUCT.md) for full positioning, audience, and constraints.
+IZEYX helps growing businesses replace fragmented, manual ways of working with connected digital systems, including websites, custom software, automation, AI agents, systems integration, and data/analytics, delivered as one coherent operating layer rather than disconnected purchases. The site's job is to generate qualified B2B enquiries via the "Book a discovery call" conversion path. See the [product brief](docs/product.md) for full positioning, audience, and constraints.
 
 ## 3. Technology stack
 
@@ -17,9 +17,7 @@ IZEYX helps growing businesses replace fragmented, manual ways of working with c
 - Server Actions for the contact form (no client-side form library)
 - Vitest unit tests, Playwright browser tests, and axe accessibility checks
 - Structured JSON logs with optional Sentry error monitoring
-- Vitest for focused unit/integration checks; Playwright and Axe for browser and accessibility checks
-- Structured JSON server logs and optional Sentry error monitoring
-- No UI component library, no animation library, and no analytics; see [DESIGN.md](docs/DESIGN.md) for why
+- No UI component library, no animation library, and no analytics; see the [design system](docs/design.md) for why
 
 ## 4. Prerequisites
 
@@ -58,33 +56,34 @@ src/
   app/                  # routes (App Router), one folder per URL segment
   components/
     ui/                 # Button, Container, Section, SectionHeader, LogoWordmark, Breadcrumbs...
-    layout/              # SiteFooter
-    navigation/           # SiteHeader, MobileNavigation, HeaderToneWatcher
-    sections/             # homepage/page-level composed sections (Hero, CTASection, cards...)
-    diagrams/             # SystemDiagram, WorkflowDiagram, ProcessTimeline
-    media/                 # MediaPlaceholder
-    forms/                 # ContactForm
+    layout/             # SiteFooter
+    navigation/         # SiteHeader, MobileNavigation, HeaderToneWatcher
+    sections/           # homepage/page-level composed sections (Hero, CtaSection, cards...)
+    diagrams/           # SystemDiagram, WorkflowDiagram, ProcessTimeline
+    media/              # MediaPlaceholder
+    forms/              # ContactForm
   data/                  # typed content: services, work, insights, process, capabilities
   lib/                   # site-config, seo helpers, contact validation/mailer
   types/                  # shared content types
-public/images/            # brand, work, team, insights, placeholders
+assets/brand/             # full-resolution editable brand-source files
+public/images/            # runtime website images organized by content type
 ```
 
 ## 9. Design system overview
 
-See [DESIGN.md](docs/DESIGN.md) for the full direction contract, color/typography rationale, layout system, diagram system, and anti-pattern checklist. In short: an editorial, systems-diagram visual language (not a template SaaS look), with semantic CSS custom-property tokens consumed via Tailwind's `@theme inline`, and a `.on-dark` class that re-points every token so the same components work correctly on light and dark sections without duplicated dark-mode classes.
+See the [design system](docs/design.md) for the full direction contract, color/typography rationale, layout system, diagram system, and anti-pattern checklist. In short: an editorial, systems-diagram visual language (not a template SaaS look), with semantic CSS custom-property tokens consumed via Tailwind's `@theme inline`, and a `.on-dark` class that re-points every token so the same components work correctly on light and dark sections without duplicated dark-mode classes.
 
 ## 10. Brand colours
 
-Fixed: black `#000000`, primary blue-violet `#3432C7`, deep blue `#1800AD`. Full semantic token table (backgrounds, surfaces, text, borders, focus, success/error) in [DESIGN.md](docs/DESIGN.md) §1 and defined in `src/app/globals.css`. Never hardcode hex values in components; use the existing `bg-*`/`text-*`/`border-*` utilities, which read from the tokens.
+Fixed: black `#000000`, primary blue-violet `#3432C7`, deep blue `#1800AD`. The full semantic token table (backgrounds, surfaces, text, borders, focus, success/error) is in the [design system](docs/design.md) §1 and defined in `src/app/globals.css`. Never hardcode hex values in components; use the existing `bg-*`/`text-*`/`border-*` utilities, which read from the tokens.
 
 ## 11. Typography
 
-Display (hero + major headings only): **Source Serif 4**. Body, interface, and card/list titles: **Geist**. Genuinely technical content only (e.g. filenames): **Geist Mono**. Composite `.text-display`/`.text-heading`/`.text-subheading`/`.text-title`/`.label`/`.text-meta` classes in `src/app/globals.css` bundle family + size + weight + tracking per role; use those instead of stacking raw Tailwind text utilities. Rationale in [DESIGN.md](docs/DESIGN.md) §2. Loaded via `next/font/google` in `src/app/layout.tsx`.
+Display (hero + major headings only): **Source Serif 4**. Body, interface, and card/list titles: **Geist**. Genuinely technical content only (e.g. filenames): **Geist Mono**. Composite `.text-display`/`.text-heading`/`.text-subheading`/`.text-title`/`.label`/`.text-meta` classes in `src/app/globals.css` bundle family + size + weight + tracking per role; use those instead of stacking raw Tailwind text utilities. The rationale is in the [design system](docs/design.md) §2. Loaded via `next/font/google` in `src/app/layout.tsx`.
 
 ## 12–15. Editing content (services, case studies, insights, process)
 
-All editorial content is in `src/data/*.ts` as typed arrays, with no CMS or database. Full field-by-field editing instructions are in **[CONTENT_GUIDE.md](docs/CONTENT_GUIDE.md)**. Quick reference:
+All editorial content is in `src/data/*.ts` as typed arrays, with no CMS or database. Full field-by-field editing instructions are in the **[content guide](docs/content-guide.md)**. Quick reference:
 
 | Content | File | Adds/removes a route automatically? |
 |---|---|---|
@@ -97,7 +96,7 @@ All editorial content is in `src/data/*.ts` as typed arrays, with no CMS or data
 
 ## 16. Replacing images
 
-Unfilled photo, screenshot, and portrait slots use clean, text-free `MediaPlaceholder` visuals. The full replacement list, including filenames, dimensions, aspect ratios, and alt-text guidance, is in **[TODO_ASSETS.md](docs/TODO_ASSETS.md)**.
+Unfilled photo, screenshot, and portrait slots use clean, text-free `MediaPlaceholder` visuals. The full replacement list, including filenames, dimensions, aspect ratios, and alt-text guidance, is in the **[asset replacement plan](docs/asset-todo.md)**.
 
 ## 17. Contact form configuration
 
@@ -138,7 +137,7 @@ Sentry is optional and stays inactive until `NEXT_PUBLIC_SENTRY_DSN` is configur
 
 ## 21. Deployment
 
-See **[DEPLOYMENT.md](docs/DEPLOYMENT.md)**. The app has no local-filesystem or absolute-path dependencies and builds as a standard Next.js app suitable for Vercel or any Node-compatible host.
+See the **[deployment guide](docs/deployment.md)**. The app has no local-filesystem or absolute-path dependencies and builds as a standard Next.js app suitable for Vercel or any Node-compatible host.
 
 ## 22. SEO configuration
 
@@ -146,18 +145,12 @@ Central config in `src/lib/site-config.ts` (name, domain, default title/descript
 
 ## 23. Accessibility notes
 
-Target: WCAG 2.2 AA. Skip-to-content link, semantic landmarks, visible focus states (including on dark sections via a lighter `--focus-dark` token; see docs/DESIGN.md), keyboard-operable mobile menu (focus trap on open, Escape to close, focus returned to the trigger), accessible disclosure controls (native `<details>`/`<summary>` for FAQs and the capability index, which work without JavaScript), form error summaries with `role="alert"` and programmatic focus management, and global support for `prefers-reduced-motion`. This is not a substitute for a manual screen-reader pass before launch; see [PRE_LAUNCH_CHECKLIST.md](docs/PRE_LAUNCH_CHECKLIST.md).
+Target: WCAG 2.2 AA. Skip-to-content link, semantic landmarks, visible focus states (including on dark sections via a lighter `--focus-dark` token; see the [design system](docs/design.md)), keyboard-operable mobile menu (focus trap on open, Escape to close, focus returned to the trigger), accessible disclosure controls (native `<details>`/`<summary>` for FAQs and the capability index, which work without JavaScript), form error summaries with `role="alert"` and programmatic focus management, and global support for `prefers-reduced-motion`. This is not a substitute for a manual screen-reader pass before launch; see the [pre-launch checklist](docs/pre-launch-checklist.md).
 
 ## 24. Remaining placeholders
 
-Full list in **[TODO_ASSETS.md](docs/TODO_ASSETS.md)**. The published email, phone, New Cairo address, working hours, LinkedIn, and X profile are marked as confirmed in `src/lib/site-config.ts`. The calendar booking URL remains an unpublished placeholder, while photography, team profiles, and approved case-study assets still need final content.
+The full list is in the **[asset replacement plan](docs/asset-todo.md)**. The published email, phone, New Cairo address, working hours, LinkedIn, and X profile are marked as confirmed in `src/lib/site-config.ts`. The calendar booking URL remains an unpublished placeholder, while photography, team profiles, and approved case-study assets still need final content.
 
 ## 25. Pre-launch checklist
 
-See **[PRE_LAUNCH_CHECKLIST.md](docs/PRE_LAUNCH_CHECKLIST.md)**.
-
----
-
-## A note on Impeccable
-
-This project was designed and built using the [Impeccable](https://github.com/pbakaus/impeccable) methodology (installed at `.claude/skills/impeccable`). See "How this was authored" at the end of [DESIGN.md](docs/DESIGN.md) for exactly what was run, what was skipped and why, and the one bookkeeping step (`/impeccable init`) worth running after restarting Claude Code.
+See the **[pre-launch checklist](docs/pre-launch-checklist.md)**.

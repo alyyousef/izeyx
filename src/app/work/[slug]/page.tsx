@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { TextLink } from "@/components/ui/TextLink";
 import { MediaPlaceholder } from "@/components/media/MediaPlaceholder";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { getCaseStudyBySlug, getPublishedCaseStudies } from "@/data/work";
 import { getServiceBySlug } from "@/data/services";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
@@ -145,7 +145,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<PagePa
         </TextLink>
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="Considering something similar?"
         description="Every engagement starts with a conversation about the specific problem, not a generic proposal."
       />

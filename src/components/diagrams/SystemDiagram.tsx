@@ -1,12 +1,11 @@
 import Image from "next/image";
-import logoMark from "../../../public/images/brand/izeyx-logomark-dark.png";
+import appIcon from "../../app/icon.png";
 
 type Node = { label: string };
 
 type SystemDiagramProps = {
   inputs: Node[];
   outputs: Node[];
-  coreLabel?: string;
   caption: string;
   className?: string;
 };
@@ -18,10 +17,9 @@ const ARTBOARD = {
   nodeHeight: 56,
   leftX: 20,
   rightX: 550,
-  hubX: 315,
-  hubY: 190,
-  hubWidth: 130,
-  hubHeight: 140,
+  hubCenterX: 380,
+  hubCenterY: 260,
+  hubRadius: 54,
 } as const;
 
 function distribute(count: number, start: number, end: number) {
@@ -45,7 +43,7 @@ function MobileList({ nodes }: { nodes: Node[] }) {
   );
 }
 
-export function SystemDiagram({ inputs, outputs, coreLabel = "IZEYX", caption, className = "" }: SystemDiagramProps) {
+export function SystemDiagram({ inputs, outputs, caption, className = "" }: SystemDiagramProps) {
   const inputCentres = distribute(inputs.length, 48, 472);
   const outputCentres = distribute(outputs.length, 48, 472);
   const inputPorts = distribute(inputs.length, 214, 306);
@@ -69,14 +67,14 @@ export function SystemDiagram({ inputs, outputs, coreLabel = "IZEYX", caption, c
           {inputCentres.map((y, index) => (
             <path
               key={`input-path-${index}`}
-              d={`M ${ARTBOARD.leftX + ARTBOARD.nodeWidth} ${y} C 266 ${y}, 270 ${inputPorts[index]}, ${ARTBOARD.hubX} ${inputPorts[index]}`}
+              d={`M ${ARTBOARD.leftX + ARTBOARD.nodeWidth} ${y} C 266 ${y}, 270 ${inputPorts[index]}, ${ARTBOARD.hubCenterX - ARTBOARD.hubRadius} ${inputPorts[index]}`}
               vectorEffect="non-scaling-stroke"
             />
           ))}
           {outputCentres.map((y, index) => (
             <path
               key={`output-path-${index}`}
-              d={`M ${ARTBOARD.hubX + ARTBOARD.hubWidth} ${outputPorts[index]} C 490 ${outputPorts[index]}, 494 ${y}, ${ARTBOARD.rightX} ${y}`}
+              d={`M ${ARTBOARD.hubCenterX + ARTBOARD.hubRadius} ${outputPorts[index]} C 490 ${outputPorts[index]}, 494 ${y}, ${ARTBOARD.rightX} ${y}`}
               vectorEffect="non-scaling-stroke"
             />
           ))}
@@ -110,38 +108,19 @@ export function SystemDiagram({ inputs, outputs, coreLabel = "IZEYX", caption, c
         ))}
 
         <g>
-          <rect
-            x={ARTBOARD.hubX}
-            y={ARTBOARD.hubY}
-            width={ARTBOARD.hubWidth}
-            height={ARTBOARD.hubHeight}
-            rx="4"
+          <circle
+            cx={ARTBOARD.hubCenterX}
+            cy={ARTBOARD.hubCenterY}
+            r={ARTBOARD.hubRadius}
             fill="var(--primary)"
           />
-          <image href={logoMark.src} x="365" y="211" width="30" height="30" />
-          <text
-            x="380"
-            y="268"
-            textAnchor="middle"
-            fill="var(--on-primary)"
-            fontFamily="var(--font-sans)"
-            fontSize="17"
-            fontWeight="600"
-            letterSpacing="1"
-          >
-            {coreLabel}
-          </text>
-          <text
-            x="380"
-            y="292"
-            textAnchor="middle"
-            fill="var(--on-primary)"
-            fillOpacity="0.76"
-            fontFamily="var(--font-sans)"
-            fontSize="11"
-          >
-            Integration layer
-          </text>
+          <image
+            href={appIcon.src}
+            x={ARTBOARD.hubCenterX - 22}
+            y={ARTBOARD.hubCenterY - 22}
+            width="44"
+            height="44"
+          />
         </g>
 
         {outputs.map((node, index) => (
@@ -176,10 +155,8 @@ export function SystemDiagram({ inputs, outputs, coreLabel = "IZEYX", caption, c
         <p className="label mb-3 text-center text-muted-soft">Existing systems</p>
         <MobileList nodes={inputs} />
         <div aria-hidden="true" className="mx-auto h-6 w-px bg-primary" />
-        <div className="mx-auto flex min-h-24 w-44 flex-col items-center justify-center rounded-sm bg-primary px-4 text-center text-on-primary">
-          <Image src={logoMark} alt="" width={24} height={24} className="mb-2 h-6 w-6 object-contain" />
-          <span className="text-sm font-semibold tracking-[0.06em]">{coreLabel}</span>
-          <span className="mt-1 text-xs text-white/75">Integration layer</span>
+        <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-primary">
+          <Image src={appIcon} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
         </div>
         <div aria-hidden="true" className="mx-auto h-6 w-px bg-primary" />
         <p className="label mb-3 text-center text-muted-soft">Connected outcomes</p>

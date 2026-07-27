@@ -46,7 +46,8 @@ yarn-error.log*
 .impeccable/
 AGENTS.md
 CLAUDE.md
-fullprompt.txt
+/fullprompt.txt
+/docs/code-review.md
 
 # typescript
 *.tsbuildinfo

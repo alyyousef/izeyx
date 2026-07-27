@@ -3,7 +3,7 @@ import { Section } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { TextLink } from "@/components/ui/TextLink";
 
-type CTASectionProps = {
+type CtaSectionProps = {
   heading: ReactNode;
   description?: ReactNode;
   primaryLabel?: string;
@@ -13,7 +13,7 @@ type CTASectionProps = {
   tone?: "light" | "dark";
 };
 
-export function CTASection({
+export function CtaSection({
   heading,
   description,
   primaryLabel = "Book a discovery call",
@@ -21,7 +21,7 @@ export function CTASection({
   secondaryLabel,
   secondaryHref,
   tone = "dark",
-}: CTASectionProps) {
+}: CtaSectionProps) {
   return (
     <Section tone={tone} aria-labelledby="cta-heading" className="text-center">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-6">

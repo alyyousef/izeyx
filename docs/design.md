@@ -1,6 +1,6 @@
-# DESIGN.md: IZEYX Visual System
+# IZEYX visual system
 
-This file records the committed visual world for izeyx.com: durable rules that any future page, component, or section must follow. It was authored using the [Impeccable](https://github.com/pbakaus/impeccable) design methodology (installed at `.claude/skills/impeccable`), applied directly rather than through its interactive concept-selection flow. See "How this was authored" at the end of this document for why.
+This file records the committed visual world for izeyx.com: durable rules that any future page, component, or section must follow.
 
 ## Direction contract
 
@@ -12,7 +12,7 @@ This file records the committed visual world for izeyx.com: durable rules that a
 
 **FIRST VIEWPORT.** Asymmetric split: headline, supporting copy, and two calls to action sit left-aligned in roughly the left half; an original CSS/SVG-free system diagram sits in the right half, showing scattered labelled inputs (Website, CRM, Support, Spreadsheets, Calls) converging through connector lines into a single IZEYX core node, then fanning out to labelled outputs (Automation, AI assistant, Data). On narrow viewports the diagram moves below the text and simplifies to a vertical flow.
 
-**FORM.** Editorial / systems-diagram composition: asymmetric hero, numbered capability index (not a card grid), alternating full-width rows for the operating-system section, a horizontal/vertical process timeline, an editorial list for problem recognition, diagrammatic service pages. This direction is pinned by the project brief (fixed brand colors, named typography starting point, and an explicit "fragmented to connected systems" visual mechanism), so it is committed directly rather than produced through Impeccable's interactive concept-roll. A brief-pinned direction supersedes the roll under the methodology's own rules.
+**FORM.** Editorial / systems-diagram composition: asymmetric hero, numbered capability index (not a card grid), alternating full-width rows for the operating-system section, a horizontal/vertical process timeline, an editorial list for problem recognition, diagrammatic service pages. This direction is pinned by the project brief: fixed brand colors, a named typography starting point, and an explicit "fragmented to connected systems" visual mechanism.
 
 ---
 
@@ -78,7 +78,7 @@ Used only inside a component/section explicitly marked as a dark block (`.on-dar
 
 ## 2. Typography
 
-*Revised twice after the initial build, both times from user review rather than internal audit. First pass: the original pairing (Bricolage Grotesque display + IBM Plex Sans body + IBM Plex Mono for every eyebrow/label/index-number) tested as visually competent but read as a template default, uppercase tracked monospace labels are a named "AI-generated interface" tell, and one grotesque display face on every heading (hero down to a card title) flattened the hierarchy. Replaced with the editorial serif/sans split below. Second pass: fixing the font wasn't enough, the small uppercase "eyebrow" line sitting above almost every heading (`SectionHeader`'s `eyebrow` prop, `CTASection`'s `eyebrow` prop, `service.eyebrow`) was itself the template tell, independent of what typeface rendered it. That prop was removed from `SectionHeader` and `CTASection` entirely and every call site cleaned up, headings now stand alone, with the handful of eyebrows that carried real conversational value (e.g. "Does this sound familiar?") folded into the following description sentence instead of living as a separate styled kicker. `.label` itself lost its uppercase/tracking treatment and now reads as plain small text, for the structural cases that legitimately remain (footer nav headers, diagram node labels, asset-placeholder tags).*
+*Revised twice after the initial build, both times from user review rather than internal audit. First pass: the original pairing (Bricolage Grotesque display + IBM Plex Sans body + IBM Plex Mono for every eyebrow/label/index-number) tested as visually competent but read as a template default, uppercase tracked monospace labels are a named "AI-generated interface" tell, and one grotesque display face on every heading (hero down to a card title) flattened the hierarchy. Replaced with the editorial serif/sans split below. Second pass: fixing the font wasn't enough, the small uppercase "eyebrow" line sitting above almost every heading (`SectionHeader`'s `eyebrow` prop, `CtaSection`'s `eyebrow` prop, `service.eyebrow`) was itself the template tell, independent of what typeface rendered it. That prop was removed from `SectionHeader` and `CtaSection` entirely and every call site cleaned up, headings now stand alone, with the handful of eyebrows that carried real conversational value (e.g. "Does this sound familiar?") folded into the following description sentence instead of living as a separate styled kicker. `.label` itself lost its uppercase/tracking treatment and now reads as plain small text, for the structural cases that legitimately remain (footer nav headers, diagram node labels, asset-placeholder tags).*
 
 ### Families
 
@@ -168,13 +168,3 @@ Service, work, and insight detail pages each get a distinct hero/body compositio
 ## 7. Anti-pattern checklist (enforced during build and final review)
 
 No glowing gradient blobs, no glassmorphism/backdrop-blur cards, no floating translucent panels, no nested cards, no rounded-square icon tiles above every heading, no generic 3D shapes, no fake browser-window mockups, no stock photography of people pointing at laptops, no decorative meaningless code snippets, no particle/dot-grid backgrounds without compositional purpose, no fake logos/awards/testimonials/metrics/case-study results, no "seamless"/"unlock your potential"/"revolutionise"-style copy, no Inter/Arial/Roboto/system-default as brand type, no emoji as service icons, no animation added purely to look busy, **no uppercase tracked monospace used decoratively for labels/index numbers that aren't genuinely technical content**, **no small "eyebrow" label sitting above a heading as a separate styled kicker** (both added after the typography revisions in §2, the second is a named "AI cluster" tell independent of which typeface renders it; a heading either stands on its own or its lead-in becomes a real sentence in the description, never a badge above it).
-
----
-
-## 8. How this was authored
-
-Impeccable was installed for this project via `npx impeccable install --providers=claude --scope=project` (installed into `.claude/skills/impeccable`, hooks registered in `.claude/settings.local.json` for post-edit and stop-time design detection). Because the slash commands it installs (`/impeccable init`, `/impeccable shape`, etc.) are not registered until Claude Code restarts and picks up the newly-installed skill, this build read the underlying reference files directly (`init.md`, `new-work.md`, `colorize.md`, `typeset.md`, `layout.md`, `audit.md`, `harden.md`, `clarify.md`, `critique.md`, `adapt.md`, `optimize.md`, `polish.md`) and followed that methodology manually for this run, including running the bundled detector (`node .claude/skills/impeccable/scripts/detect.mjs`) against the built pages.
-
-The interactive concept-selection flow (`concept-seed.mjs` / `serve-question.mjs`, which opens a browser page for a human to pick between dice-rolled directions) was intentionally not run: the project brief already pins the direction, fixed brand colors, a named typography starting point, and an explicit "fragmented operations → connected systems" visual mechanism, and Impeccable's own methodology states a brief- or user-pinned direction supersedes the roll. The direction contract above was written directly against that pinned brief instead.
-
-**One remaining step for a future session:** after restarting Claude Code, run `/impeccable init` to let Impeccable register this file as its own tracked product record (it will find `PRODUCT.md` already complete) and confirm `.impeccable/` housekeeping files are in place; this is a bookkeeping step for the tool's own state, not a prerequisite for the site being complete.

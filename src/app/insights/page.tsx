@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { InsightCard } from "@/components/sections/InsightCard";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { insightArticles } from "@/data/insights";
 import { buildMetadata } from "@/lib/seo";
 
@@ -30,7 +30,7 @@ export default function InsightsPage() {
         ))}
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="Have a question these articles don't answer?"
         description="Book a discovery call and ask it directly. We'd rather have the conversation than write another generic post."
       />

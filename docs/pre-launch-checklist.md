@@ -1,10 +1,10 @@
-# PRE_LAUNCH_CHECKLIST.md
+# Pre-launch checklist
 
 ## Content and business information
 
 - [ ] Verify the published email, phone, New Cairo address, working hours, LinkedIn URL, and X URL in `src/lib/site-config.ts`; they are currently marked as confirmed. Replace the calendar booking placeholder before publishing a direct-booking link.
 - [ ] Replace or confirm real case studies in `src/data/work.ts` (or keep the current entries clearly labelled as placeholders if none exist yet, do not silently un-flag `clientIsPlaceholder` without real client approval).
-- [ ] Add real team profiles / photography on `/about`, or keep the current placeholder slots (see `TODO_ASSETS.md`).
+- [ ] Add real team profiles / photography on `/about`, or keep the current placeholder slots (see `asset-todo.md`).
 - [ ] Confirm company history / founding date / location before adding them to `/about`. None are currently stated, which is intentional until confirmed.
 - [ ] Legal review of `/privacy` and `/terms`: the copy on both pages is still unreviewed draft text, even though the visible placeholder banner was removed from `/privacy` at the client's request. `/terms` still shows its banner; do not launch either page without a real review.
 - [ ] Decide whether `/privacy` and `/terms` should be indexed by search engines once finalised (currently `noindex` in their route metadata, see `src/app/privacy/page.tsx` / `src/app/terms/page.tsx`).
@@ -17,7 +17,7 @@
 
 ## Assets
 
-- [ ] Work through `TODO_ASSETS.md` top to bottom; replace at least the "Required before launch" table.
+- [ ] Work through `asset-todo.md` top to bottom; replace at least the "Required before launch" table.
 - [ ] Confirm no `MediaPlaceholder` remains for an asset that's actually available.
 
 ## Technical validation

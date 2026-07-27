@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { WorkGridCard } from "@/components/sections/WorkGridCard";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { getPublishedCaseStudies } from "@/data/work";
 import { buildMetadata } from "@/lib/seo";
 
@@ -34,7 +34,7 @@ export default function WorkPage() {
         </div>
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="Let's talk about what you're trying to solve."
         description="Book a discovery call and we'll tell you honestly whether this is a fit and, if so, how."
       />

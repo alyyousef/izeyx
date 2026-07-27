@@ -1,4 +1,4 @@
-# TODO_ASSETS.md: Real assets still needed
+# Asset replacement plan
 
 Every item below currently renders as a polished, unmistakable placeholder (the `MediaPlaceholder` component at `src/components/media/MediaPlaceholder.tsx`) rather than a stock photo or invented screenshot. Replace the file, then remove the corresponding `MediaPlaceholder` usage (or point `next/image` at the new file), no layout changes should be required, since every placeholder already reserves the correct aspect ratio.
 
@@ -36,8 +36,7 @@ Filenames below are suggestions matching what the code already expects in placeh
 
 ## Explicitly not placeholders (already real / already correct as-is)
 
-- **Logo:** real and provided by the client. `izeyx-logomark.png` is the blue mark for light surfaces, while `izeyx-logomark-dark.png` is the white mark for dark surfaces; `LogoWordmark.tsx` switches between them automatically. `izeyx-logomark-source.png` and `izeyx-icon-source.png` preserve the full-resolution blue source used for browser/app icons, while the dark mark is used in the black Open Graph image. Regenerate these assets together if the logo changes again.
-- **`MediaPlaceholder` background image:** `public/images/placeholders/coming-soon.jpg` is a deliberate branded "coming soon" backdrop shown behind every placeholder's label, replacing a flat striped pattern. It is not itself a real asset and doesn't need replacing on its own; it stays in place until the individual placeholders above are replaced one by one.
+- **Logo:** real and provided by the client. `public/images/brand/izeyx-logo-blue.png` is the optimized blue mark for light surfaces, while `public/images/brand/izeyx-logo-white.png` is the optimized white mark for dark surfaces. `LogoWordmark.tsx` switches between them automatically. Full-resolution originals live in `assets/brand/izeyx-logo-blue-source.png` and `assets/brand/izeyx-logo-white-source.png`; regenerate the runtime logos and App Router icon files together if the logo changes.
 - **All diagrams** (system diagram, workflow diagrams, process timeline) are built from real HTML/CSS/SVG, not images. Nothing to replace; edit the data feeding them (`src/data/service-diagrams.ts`, `src/data/process.ts`) instead.
 
 ## How to replace a placeholder in practice

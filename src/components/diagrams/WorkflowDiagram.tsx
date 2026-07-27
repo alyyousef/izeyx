@@ -12,7 +12,7 @@ type WorkflowDiagramProps = {
 /**
  * A labelled sequence joined by directional connectors, used to explain
  * automation and AI workflows (input → reasoning → approval → action) and the
- * homepage operating-system section. See docs/DESIGN.md section 4.
+ * homepage operating-system section. See docs/design.md section 4.
  */
 export function WorkflowDiagram({ steps, caption, className = "" }: WorkflowDiagramProps) {
   return (

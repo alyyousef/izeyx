@@ -1,6 +1,6 @@
 import type { FAQ } from "@/types/content";
 
-export function FAQList({ faqs }: { faqs: FAQ[] }) {
+export function FaqList({ faqs }: { faqs: FAQ[] }) {
   if (!faqs.length) return null;
 
   return (

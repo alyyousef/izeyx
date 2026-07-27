@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/ui/SectionHeader";
 import { ProcessTimeline } from "@/components/diagrams/ProcessTimeline";
-import { CTASection } from "@/components/sections/CTASection";
+import { CtaSection } from "@/components/sections/CtaSection";
 import { processStages } from "@/data/process";
 import { buildMetadata } from "@/lib/seo";
 
@@ -76,7 +76,7 @@ export default function ProcessPage() {
         </dl>
       </Section>
 
-      <CTASection
+      <CtaSection
         heading="See how this applies to your business"
         description="Book a discovery call and we'll walk through the first two stages together, at no cost to you."
       />

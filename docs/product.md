@@ -1,7 +1,5 @@
 # Product
 
-<!-- impeccable:product-schema 1 -->
-
 ## Platform
 
 web
@@ -41,12 +39,12 @@ Most agencies and freelancers sell a single deliverable, such as a website, an a
 - **Name:** IZEYX. **Domain:** izeyx.com.
 - **Fixed brand colours:** black `#000000`, primary blue-violet `#3432C7`, deep blue `#1800AD`. No unrelated decorative accent hues; red/green reserved for genuine error/success states only.
 - **Primary CTA:** "Book a discovery call." Low-commitment SaaS CTAs ("Start for free") are explicitly disallowed because IZEYX is a service company, not self-serve software.
-- **Typography:** a distinctive pairing is required, excluding Inter, Arial, Roboto, and system defaults. The final pairing and rationale are recorded in `DESIGN.md`.
+- **Typography:** a distinctive pairing is required, excluding Inter, Arial, Roboto, and system defaults. The final pairing and rationale are recorded in `design.md`.
 - **Visual mechanism:** "from fragmented operations to connected systems," expressed through original systems-map, node, and workflow diagrams built in HTML and CSS rather than a circuit-board cliché, stock photography, or glowing gradient blobs.
 
 ## Evidence on Hand
 
-None. No real client work, testimonials, metrics, team photography, office photography, or press exists at launch. Every such area ships as a clearly labelled placeholder (see `TODO_ASSETS.md`) rather than being fabricated or omitted.
+None. No real client work, testimonials, metrics, team photography, office photography, or press exists at launch. Every such area ships as a clearly labelled placeholder (see `asset-todo.md`) rather than being fabricated or omitted.
 
 ## Product Principles
 

@@ -1,4 +1,4 @@
-# DEPLOYMENT.md
+# Deployment guide
 
 This app is a standard Next.js 16 App Router project with no static-export constraints (it uses Server Actions for the contact form and dynamic OG/icon image generation, both of which need a Node.js server runtime, not `output: "export"`). It will deploy cleanly to Vercel or any Node-compatible host (Netlify, Render, a self-managed Node server behind a reverse proxy, etc.).
 
@@ -18,7 +18,7 @@ This app is a standard Next.js 16 App Router project with no static-export const
    ```
 2. Set the environment variables listed in `.env.example` / README section 18 in the host's environment configuration. `NEXT_PUBLIC_SITE_URL` is required and production builds reject missing, local, non-HTTPS, or path-based values. Set the three `CONTACT_*`/`EMAIL_PROVIDER_API_KEY` variables for online enquiry delivery; without them, enquiries are not sent or stored and the UI directs visitors to the published contact details. Configure `NEXT_PUBLIC_SENTRY_DSN` before launch if centralized error alerts are required; add Sentry source-map credentials only as protected CI or hosting secrets.
 3. Point DNS for `izeyx.com` at the chosen host once one is picked. Nothing in the codebase assumes a specific host.
-4. Work through `PRE_LAUNCH_CHECKLIST.md`, in particular verifying the currently published business contact details and completing legal review of `/privacy` and `/terms`.
+4. Work through `pre-launch-checklist.md`, in particular verifying the currently published business contact details and completing legal review of `/privacy` and `/terms`.
 
 ## Vercel (typical path for a Next.js app)
 
@@ -46,6 +46,6 @@ This app is a standard Next.js 16 App Router project with no static-export const
 ## Things to decide at deploy time (not codebase concerns)
 
 - Whether to point `EMAIL_PROVIDER_API_KEY` at Resend (the implemented default, see `src/lib/contact-mailer.ts`) or swap in a different provider.
-- Whether to add analytics. None is included by default (see DESIGN.md / brief: "Do not include analytics until a provider is deliberately configured"). Add it deliberately, then update `/privacy` accordingly.
-- CDN/image-hosting strategy once real photography replaces the `MediaPlaceholder` components (see `TODO_ASSETS.md`), `next/image` handles optimisation automatically once real files exist under `public/images/`.
+- Whether to add analytics. None is included by default (see `design.md` / brief: "Do not include analytics until a provider is deliberately configured"). Add it deliberately, then update `/privacy` accordingly.
+- CDN/image-hosting strategy once real photography replaces the `MediaPlaceholder` components (see `asset-todo.md`), `next/image` handles optimisation automatically once real files exist under `public/images/`.
 - **Self-hosted cache invalidation:** Next may serve generated static responses with long shared-cache lifetimes. Deploy releases atomically (or explicitly purge the reverse proxy/CDN) so a new release cannot continue serving pages from the previous build. Vercel's immutable deployment model handles replacement; custom hosting must verify it.
