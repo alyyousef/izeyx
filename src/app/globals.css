@@ -1,0 +1,342 @@
+@import "tailwindcss";
+
+:root {
+  /* Canvas & surfaces */
+  --background: #fbfafe;
+  --surface: #ffffff;
+  --surface-subtle: #f2f0fa;
+
+  /* Text */
+  --foreground: #000000;
+  --muted: #57556a;
+  /* Used throughout as real (if secondary) label/metadata text: numbered
+     index digits, category eyebrows, and dates. It is not decoration, so despite the
+     name it must clear 4.5:1 on --background like --muted does (verified:
+     ~5:1). A lighter value here read as generic washed-out gray in an axe-core
+     pass and was raised to this. */
+  --muted-soft: #6b6980;
+
+  /* Structure */
+  --border: #e1deef;
+  --border-strong: #000000;
+
+  /* Brand / action (fixed fill colors used as solid button backgrounds,
+     always paired with --on-primary text, so they never need to shift
+     between light and dark sections) */
+  --primary: #3432c7;
+  --primary-strong: #1800ad;
+  --primary-soft: #ecebfa;
+  --on-primary: #ffffff;
+  --focus: #3432c7;
+
+  /* Text-safe primary (for links, ghost buttons, eyebrow labels sitting
+     directly on the page background). Identical to --primary in light
+     sections; overridden lighter inside .on-dark so it keeps 4.5:1+ against
+     a black canvas instead of the ~2.4:1 --primary would give as plain text. */
+  --primary-text: var(--primary);
+  --primary-text-strong: var(--primary-strong);
+
+  /* Dark sections */
+  --surface-dark: #000000;
+  --surface-dark-alt: #0a0620;
+  --foreground-dark: #ffffff;
+  --muted-dark: #a9a6c6;
+  --border-dark: rgba(255, 255, 255, 0.16);
+  --focus-dark: #8280f2;
+
+  /* Semantic */
+  --success: #15703a;
+  --success-soft: #e7f5ec;
+  --error: #b3261e;
+  --error-soft: #fbeaea;
+
+  /* Radii */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+
+  /* Fluid type scale. Roles below split into two families deliberately:
+     --text-display/--text-h2 carry the serif (hero + major section
+     headings only); --text-h3/--text-h4 carry the sans (card and interface
+     titles). See the .text-* utility classes below for how family, weight,
+     leading, and tracking combine per role. */
+  --text-display: clamp(2.5rem, 1.85rem + 3vw, 4.25rem);
+  --text-h2: clamp(1.875rem, 1.6rem + 1.35vw, 2.75rem);
+  --text-h3: clamp(1.375rem, 1.28rem + 0.5vw, 1.625rem);
+  --text-h4: clamp(1.0625rem, 1.02rem + 0.2vw, 1.1875rem);
+  --text-body-lg: clamp(1.0625rem, 1rem + 0.3vw, 1.25rem);
+  --text-label: 0.75rem;
+  --text-meta: 0.8125rem;
+
+  /* Letter-spacing per role. Large serif/heading text runs tighter. */
+  --tracking-display: -0.03em;
+  --tracking-heading: -0.025em;
+  --tracking-title: -0.015em;
+  --tracking-body: -0.005em;
+  --tracking-meta: 0.01em;
+
+  /* Line-height per role, tuned to each face's actual metrics rather than
+     one ratio applied everywhere. */
+  --leading-display: 1.05;
+  --leading-heading: 1.1;
+  --leading-title: 1.25;
+  --leading-body: 1.6;
+  --leading-meta: 1.4;
+
+  /* Container */
+  --container-max: 1280px;
+  --container-pad: clamp(1.25rem, 4vw, 4rem);
+  --reading-measure: 65ch;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-surface: var(--surface);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-soft: var(--muted-soft);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-primary: var(--primary);
+  --color-primary-strong: var(--primary-strong);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
+  --color-primary-text-strong: var(--primary-text-strong);
+  --color-on-primary: var(--on-primary);
+  --color-focus: var(--focus);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-alt: var(--surface-dark-alt);
+  --color-foreground-dark: var(--foreground-dark);
+  --color-muted-dark: var(--muted-dark);
+  --color-border-dark: var(--border-dark);
+  --color-focus-dark: var(--focus-dark);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-error: var(--error);
+  --color-error-soft: var(--error-soft);
+
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+
+  --font-display: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+* {
+  border-color: var(--border);
+}
+
+/*
+ * Dark-section scope: re-points the semantic tokens rather than adding
+ * parallel "-dark" utility classes everywhere. Because @theme inline keeps
+ * these as var() indirections, every existing text-foreground / bg-background
+ * / border-border / text-muted usage automatically resolves to the dark
+ * values inside .on-dark, so components don't need tone-specific variants.
+ */
+.on-dark {
+  --background: var(--surface-dark);
+  --surface: var(--surface-dark-alt);
+  --surface-subtle: color-mix(in srgb, var(--surface-dark-alt) 70%, white 6%);
+  --foreground: var(--foreground-dark);
+  --muted: var(--muted-dark);
+  /* Same reasoning as the light value above: this is real label/metadata
+     text, not decoration, so it gets the same passing color as --muted-dark
+     rather than a translucent, lower-contrast mix. */
+  --muted-soft: var(--muted-dark);
+  --border: var(--border-dark);
+  --border-strong: var(--foreground-dark);
+  --focus: var(--focus-dark);
+  --primary-soft: color-mix(in srgb, var(--primary) 28%, transparent);
+  --primary-text: var(--focus-dark);
+  --primary-text-strong: #b6b4fb;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.on-dark :focus-visible {
+  outline-color: var(--focus-dark);
+}
+
+/* The supplied blue mark is used on light surfaces; dark sections switch to
+   the supplied white mark without changing the shared wordmark component. */
+.logo-mark-dark {
+  display: none;
+}
+
+.on-dark .logo-mark-light {
+  display: none;
+}
+
+.on-dark .logo-mark-dark {
+  display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/*
+ * Typography roles. Two families carry two different jobs: the serif
+ * (.text-display / .text-heading) is reserved for the hero and major
+ * section headings; every card title, list item, and in-page subheading
+ * uses the sans (.text-subheading / .text-title), matching Impeccable's
+ * guidance against loading every heading with one loud display face.
+ * See docs/DESIGN.md §2 for the full rationale and role table.
+ */
+.text-display {
+  font-family: var(--font-display);
+  font-size: var(--text-display);
+  font-weight: 500;
+  line-height: var(--leading-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.text-heading {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: 500;
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+}
+
+.text-subheading {
+  font-family: var(--font-sans);
+  font-size: var(--text-h3);
+  font-weight: 600;
+  line-height: var(--leading-title);
+  letter-spacing: var(--tracking-title);
+}
+
+.text-title {
+  font-family: var(--font-sans);
+  font-size: var(--text-h4);
+  font-weight: 600;
+  line-height: var(--leading-title);
+  letter-spacing: var(--tracking-title);
+}
+
+/* Editorial pull-quote: the one place besides headings the serif appears,
+   set in its italic to read as a quotation rather than another heading. */
+.text-pullquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+/* Small structural text for footer nav headers, diagram node labels, and asset
+   placeholder tags. Sentence case, no letter-spacing: an earlier version of
+   this class used uppercase + wide tracking, which (combined with sitting
+   over every heading as a kicker) read as a template default. Removed; see
+   docs/DESIGN.md §2. */
+.label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--text-label);
+  line-height: 1.3;
+}
+
+/* Dates, categories, reading time, and index digits are real secondary content,
+   not decoration, so it stays sans and passes the same contrast floor as
+   body text (see --muted-soft). Tabular figures keep numerals aligned. */
+.text-meta {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: var(--text-meta);
+  line-height: var(--leading-meta);
+  letter-spacing: var(--tracking-meta);
+  font-variant-numeric: tabular-nums;
+}
+
+/* System diagrams respond to their own available width rather than the page
+   viewport. This prevents the horizontal composition from being squeezed when
+   it sits inside the homepage's narrower content column on desktop screens. */
+.system-diagram {
+  container-name: system-diagram;
+  container-type: inline-size;
+}
+
+.system-diagram-artwork {
+  display: block;
+}
+
+.system-diagram-mobile {
+  display: none;
+}
+
+@container system-diagram (max-width: 29.999rem) {
+  .system-diagram-artwork {
+    display: none;
+  }
+
+  .system-diagram-mobile {
+    display: block;
+  }
+}
+
+@keyframes process-flow {
+  to {
+    background-position-x: 8px;
+  }
+}
+
+.process-flow-line {
+  background-image: linear-gradient(to right, var(--primary) 50%, transparent 50%);
+  background-size: 8px 2px;
+  animation: process-flow 1.6s linear infinite;
+}
+
+.sr-only-focusable:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
