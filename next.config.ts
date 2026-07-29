@@ -13,6 +13,12 @@ import { withSentryConfig } from "@sentry/nextjs";
 // 'unsafe-eval' is dev-only: React's dev-mode stack-trace reconstruction
 // calls eval(), which a production build never does (see Next's CSP guide).
 const isDev = process.env.NODE_ENV === "development";
+// Vercel serves the deployed site over HTTPS, where upgrading any accidental
+// HTTP subresource is useful. Keep this directive out of local production
+// previews: WebKit correctly upgrades localhost assets to HTTPS and the local
+// `next start` server only speaks HTTP, which would make the page appear
+// completely unstyled in Safari-focused tests.
+const shouldUpgradeInsecureRequests = Boolean(process.env.VERCEL);
 const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""};
@@ -25,7 +31,7 @@ const cspHeader = `
   base-uri 'self';
   form-action 'self';
   frame-ancestors 'none';
-  upgrade-insecure-requests;
+  ${shouldUpgradeInsecureRequests ? "upgrade-insecure-requests;" : ""}
 `
   .replace(/\s{2,}/g, " ")
   .trim();

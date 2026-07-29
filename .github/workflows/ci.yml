@@ -44,11 +44,14 @@ jobs:
       - name: Production build
         run: npm run build
 
-      - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+      - name: Install browser engines
+        run: npx playwright install --with-deps chromium firefox webkit
 
       - name: Browser and accessibility tests
         run: npm run test:e2e:ci
+
+      - name: Lighthouse performance budgets
+        run: npm run test:lighthouse
 
       - name: Upload browser-test report on failure
         if: failure()
@@ -58,5 +61,14 @@ jobs:
           path: |
             playwright-report/
             test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lighthouse-report/
           if-no-files-found: ignore
           retention-days: 7

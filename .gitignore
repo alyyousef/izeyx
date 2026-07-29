@@ -14,6 +14,8 @@
 /coverage
 /playwright-report/
 /test-results/
+/lighthouse-report/
+/.lighthouseci/
 
 # next.js
 /.next/

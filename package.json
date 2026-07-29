@@ -17,7 +17,12 @@
     "test:e2e:ci": "start-server-and-test serve:test:ci http://127.0.0.1:3100 test:e2e:run",
     "test:e2e:run": "playwright test",
     "test:e2e:ui": "start-server-and-test serve:test http://127.0.0.1:3100 test:e2e:ui:run",
-    "test:e2e:ui:run": "playwright test --ui"
+    "test:e2e:ui:run": "playwright test --ui",
+    "test:e2e:visual": "start-server-and-test serve:test http://127.0.0.1:3100 test:e2e:visual:run",
+    "test:e2e:visual:run": "playwright test tests/e2e/visual.spec.ts --project=chromium",
+    "test:e2e:update-snapshots": "start-server-and-test serve:test http://127.0.0.1:3100 test:e2e:update-snapshots:run",
+    "test:e2e:update-snapshots:run": "playwright test tests/e2e/visual.spec.ts --project=chromium --update-snapshots",
+    "test:lighthouse": "lhci autorun"
   },
   "dependencies": {
     "@sentry/nextjs": "^10.68.0",
@@ -27,6 +32,7 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.12.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.62.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",

@@ -1,0 +1,19 @@
+html {
+  scroll-behavior: auto !important;
+}
+
+header {
+  position: static !important;
+}
+
+*,
+*::before,
+*::after {
+  animation: none !important;
+  caret-color: transparent !important;
+  transition: none !important;
+}
+
+::-webkit-scrollbar {
+  display: none !important;
+}
