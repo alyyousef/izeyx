@@ -35,7 +35,7 @@ describe("submitContactForm", () => {
   });
 
   it("reports success only after confirmed delivery", async () => {
-    sendNotification.mockResolvedValue({ delivered: true });
+    sendNotification.mockResolvedValue({ delivered: true, confirmationDelivered: true });
 
     const result = await submitContactForm(initialContactFormState, validFormData());
 
@@ -55,13 +55,14 @@ describe("submitContactForm", () => {
     expect(result.message).toContain("Nothing has been saved");
   });
 
-  it("silently accepts honeypot spam without calling the provider", async () => {
+  it("does not let an unexpected autofilled field bypass delivery", async () => {
+    sendNotification.mockResolvedValue({ delivered: true, confirmationDelivered: true });
     const formData = validFormData();
     formData.set("company_website", "https://spam.invalid");
 
     const result = await submitContactForm(initialContactFormState, formData);
 
     expect(result).toEqual({ status: "success" });
-    expect(sendNotification).not.toHaveBeenCalled();
+    expect(sendNotification).toHaveBeenCalledOnce();
   });
 });

@@ -6,7 +6,9 @@ import { serviceInterestOptions, timelineOptions, budgetOptions, type ContactFor
 // Imported only from src/app/contact/actions.ts, a "use server" module, so
 // this never reaches the client bundle, so no server-only guard package is needed.
 
-export type SendResult = { delivered: true } | { delivered: false; reason: "not_configured" | "provider_error" | "network_error" };
+export type SendResult =
+  | { delivered: true; confirmationDelivered: boolean }
+  | { delivered: false; reason: "not_configured" | "provider_error" | "network_error" };
 
 function labelFor(options: readonly { value: string; label: string }[], value: string) {
   return options.find((option) => option.value === value)?.label ?? value;
@@ -28,6 +30,42 @@ function formatEmailBody(values: ContactFormValues) {
   ];
 
   return lines.filter((line) => line !== null).join("\n");
+}
+
+function formatConfirmationBody(values: ContactFormValues) {
+  const service = labelFor(serviceInterestOptions, values.serviceInterest).toLowerCase();
+
+  return [
+    `Hi ${values.fullName},`,
+    "",
+    `Thank you for contacting IZEYX about ${service}. We have received your enquiry and will review the details you shared.`,
+    "",
+    "Our team aims to reply within one business day. If you would like to add anything in the meantime, simply reply to this email.",
+    "",
+    "Best,",
+    "The IZEYX team",
+    siteConfig.url,
+  ].join("\n");
+}
+
+async function sendWithResend(
+  apiKey: string,
+  message: {
+    from: string;
+    to: string[];
+    reply_to: string;
+    subject: string;
+    text: string;
+  }
+) {
+  return fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(message),
+  });
 }
 
 /**
@@ -61,19 +99,12 @@ export async function sendContactNotification(
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        from,
-        to: [recipient],
-        reply_to: values.workEmail,
-        subject: `New enquiry from ${values.fullName} (${values.companyName})`,
-        text: formatEmailBody(values),
-      }),
+    const response = await sendWithResend(apiKey, {
+      from,
+      to: [recipient],
+      reply_to: values.workEmail,
+      subject: `New enquiry from ${values.fullName} (${values.companyName})`,
+      text: formatEmailBody(values),
     });
 
     if (!response.ok) {
@@ -95,7 +126,6 @@ export async function sendContactNotification(
       provider: "resend",
       serviceInterest: values.serviceInterest,
     });
-    return { delivered: true };
   } catch (error) {
     reportServerError("contact.delivery.network_error", error, {
       requestId: context.requestId,
@@ -103,5 +133,43 @@ export async function sendContactNotification(
       serviceInterest: values.serviceInterest,
     });
     return { delivered: false, reason: "network_error" };
+  }
+
+  try {
+    const confirmationResponse = await sendWithResend(apiKey, {
+      from,
+      to: [values.workEmail],
+      reply_to: recipient,
+      subject: "We received your enquiry | IZEYX",
+      text: formatConfirmationBody(values),
+    });
+
+    if (!confirmationResponse.ok) {
+      reportServerError(
+        "contact.confirmation.provider_error",
+        new Error(`Email provider returned HTTP ${confirmationResponse.status}.`),
+        {
+          requestId: context.requestId,
+          provider: "resend",
+          statusCode: confirmationResponse.status,
+          serviceInterest: values.serviceInterest,
+        }
+      );
+      return { delivered: true, confirmationDelivered: false };
+    }
+
+    logger.info("contact.confirmation.succeeded", {
+      requestId: context.requestId,
+      provider: "resend",
+      serviceInterest: values.serviceInterest,
+    });
+    return { delivered: true, confirmationDelivered: true };
+  } catch (error) {
+    reportServerError("contact.confirmation.network_error", error, {
+      requestId: context.requestId,
+      provider: "resend",
+      serviceInterest: values.serviceInterest,
+    });
+    return { delivered: true, confirmationDelivered: false };
   }
 }

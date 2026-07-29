@@ -103,17 +103,6 @@ export function ContactForm({ defaultService = "" }: { defaultService?: string }
 
   return (
     <form key={formKey} action={formAction} noValidate aria-describedby={state.message ? `${formId}-summary` : undefined}>
-      {/* Honeypot: positioned off-screen unconditionally (unlike .sr-only-focusable,
-          which intentionally reveals on focus for skip links) and out of tab
-          order, so a real visitor can never see or reach it. */}
-      <input
-        type="text"
-        name="company_website"
-        tabIndex={-1}
-        autoComplete="off"
-        aria-hidden="true"
-        className="absolute top-auto left-[-9999px] h-px w-px overflow-hidden"
-      />
       <input type="hidden" name="renderedAt" value={renderedAt} />
 
       {state.message ? (
