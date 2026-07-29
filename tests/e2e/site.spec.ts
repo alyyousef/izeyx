@@ -103,10 +103,20 @@ test("navigation and system diagram switch at their intended breakpoints", async
   await expect(page.locator(".system-diagram-mobile")).toBeVisible();
   await expect(page.locator(".system-diagram-artwork")).toBeHidden();
 
+  // Tablet width: the system diagram's own container is already well past its
+  // 30rem switch point, so it shows full desktop artwork here. The primary
+  // nav + CTA button need more room than 768px offers without cramming
+  // together or wrapping (verified: the CTA button wraps to two lines below
+  // ~900px), so the header keeps the mobile menu through the tablet range.
   await page.setViewportSize({ width: 768, height: 1024 });
+
+  await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
+  await expect(page.getByRole("navigation", { name: "Primary" })).toBeHidden();
+  await expect(page.locator(".system-diagram-mobile")).toBeHidden();
+  await expect(page.locator(".system-diagram-artwork")).toBeVisible();
+
+  await page.setViewportSize({ width: 1024, height: 900 });
 
   await expect(page.getByRole("button", { name: "Open menu" })).toBeHidden();
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
-  await expect(page.locator(".system-diagram-mobile")).toBeHidden();
-  await expect(page.locator(".system-diagram-artwork")).toBeVisible();
 });

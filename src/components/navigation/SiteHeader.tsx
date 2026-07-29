@@ -13,7 +13,7 @@ export function SiteHeader() {
       <Container className="flex min-h-18 items-center justify-between py-3">
         <LogoWordmark />
 
-        <nav aria-label="Primary" className="hidden md:block">
+        <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex items-center gap-8">
             {primaryNav.map((item) => (
               <li key={item.href}>
@@ -28,7 +28,7 @@ export function SiteHeader() {
           </ul>
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden lg:block">
           <Button href="/contact" variant="primary" className="px-5 py-3 text-sm">
             {ctaCopy.primary}
           </Button>

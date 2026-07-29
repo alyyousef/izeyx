@@ -15,7 +15,7 @@ export function ServiceRow({ service, index }: { service: Service; index: number
           </div>
         </div>
 
-        <div className="md:col-span-5 md:col-start-7">
+        <div className="md:col-span-4 md:col-start-7">
           <p className="label text-muted-soft">Common deliverables</p>
           <ul className="mt-2 flex flex-col gap-1.5 text-sm text-foreground">
             {service.deliverables.slice(0, 3).map((item) => (
@@ -24,7 +24,7 @@ export function ServiceRow({ service, index }: { service: Service; index: number
           </ul>
         </div>
 
-        <div className="flex items-end md:col-span-2 md:justify-end">
+        <div className="flex items-end md:col-span-2 md:col-start-11 md:justify-end">
           <span className="text-sm font-medium text-primary-text">
             View service <span aria-hidden="true">→</span>
           </span>

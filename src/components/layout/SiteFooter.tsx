@@ -11,7 +11,7 @@ export function SiteFooter() {
   return (
     <footer data-header-zone="dark" className="on-dark border-t border-border bg-background text-foreground">
       <Container className="py-16 md:py-20">
-        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-6">
+        <div className="grid grid-cols-2 gap-x-8 gap-y-12 md:grid-cols-[0.8fr_0.8fr_1.4fr_1fr_1fr_1fr]">
           <div className="col-span-2 flex flex-col gap-4 md:col-span-2">
             <LogoWordmark />
             <p className="max-w-xs text-sm text-muted">{siteConfig.tagline}</p>

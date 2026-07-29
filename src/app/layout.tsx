@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Source_Serif_4, Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
@@ -60,6 +60,10 @@ export const metadata: Metadata = {
   },
   // No manual `icons` entry: src/app/icon.png and apple-icon.png are picked
   // up automatically via Next's file-convention and injected into <head>.
+};
+
+export const viewport: Viewport = {
+  themeColor: siteConfig.themeColor,
 };
 
 export default function RootLayout({

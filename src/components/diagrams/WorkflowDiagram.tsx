@@ -17,9 +17,9 @@ type WorkflowDiagramProps = {
 export function WorkflowDiagram({ steps, caption, className = "" }: WorkflowDiagramProps) {
   return (
     <figure className={`m-0 ${className}`}>
-      <ol className="flex flex-col gap-0 md:flex-row md:items-stretch md:gap-0">
+      <ol className="flex flex-col gap-0 lg:flex-row lg:items-stretch lg:gap-0">
         {steps.map((step, index) => (
-          <li key={step.label} className="flex flex-1 flex-col md:flex-row md:items-stretch">
+          <li key={step.label} className="flex flex-1 flex-col lg:flex-row lg:items-stretch">
             <div className="flex flex-1 flex-col gap-2 border border-border-strong/40 bg-surface px-5 py-6">
               <span className="label text-primary-text">{`0${index + 1}`}</span>
               <p className="text-title text-foreground">{step.label}</p>
@@ -28,11 +28,11 @@ export function WorkflowDiagram({ steps, caption, className = "" }: WorkflowDiag
             {index < steps.length - 1 ? (
               <div
                 aria-hidden="true"
-                className="flex shrink-0 items-center justify-center py-1 text-muted-soft md:w-10 md:py-0"
+                className="flex shrink-0 items-center justify-center py-1 text-muted-soft lg:w-10 lg:py-0"
               >
-                <span className="text-lg md:rotate-0" aria-hidden="true">
-                  <span className="block md:hidden">↓</span>
-                  <span className="hidden md:block">→</span>
+                <span className="text-lg lg:rotate-0" aria-hidden="true">
+                  <span className="block lg:hidden">↓</span>
+                  <span className="hidden lg:block">→</span>
                 </span>
               </div>
             ) : null}
