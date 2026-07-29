@@ -8,6 +8,7 @@ import { CtaSection } from "@/components/sections/CtaSection";
 import { getCaseStudyBySlug, getPublishedCaseStudies } from "@/data/work";
 import { getServiceBySlug } from "@/data/services";
 import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type PageParams = { slug: string };
 
@@ -18,12 +19,13 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Promise<PageParams> }): Promise<Metadata> {
   const { slug } = await params;
   const caseStudy = getCaseStudyBySlug(slug);
-  if (!caseStudy) return {};
+  if (!caseStudy || !caseStudy.published) return {};
 
   return buildMetadata({
     title: caseStudy.projectName,
     description: caseStudy.challenge,
     path: `/work/${caseStudy.slug}`,
+    noIndex: caseStudy.clientIsPlaceholder,
   });
 }
 
@@ -150,17 +152,13 @@ export default async function CaseStudyPage({ params }: { params: Promise<PagePa
         description="Every engagement starts with a conversation about the specific problem, not a generic proposal."
       />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema([
-              { name: "Home", path: "/" },
-              { name: "Work", path: "/work" },
-              { name: caseStudy.projectName, path: `/work/${caseStudy.slug}` },
-            ])
-          ),
-        }}
+      <JsonLd
+        id="breadcrumb-schema"
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Work", path: "/work" },
+          { name: caseStudy.projectName, path: `/work/${caseStudy.slug}` },
+        ])}
       />
     </>
   );

@@ -9,6 +9,7 @@ import { InsightCard } from "@/components/sections/InsightCard";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { insightArticles, getInsightBySlug, getRelatedInsights } from "@/data/insights";
 import { buildMetadata, articleSchema, breadcrumbSchema } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type PageParams = { slug: string };
 
@@ -92,31 +93,23 @@ export default async function InsightArticlePage({ params }: { params: Promise<P
         description="Book a discovery call. It's a working conversation, not a sales pitch."
       />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            articleSchema({
-              title: article.title,
-              description: article.description,
-              path: `/insights/${article.slug}`,
-              datePublished: article.publicationDate,
-              author: article.author,
-            })
-          ),
-        }}
+      <JsonLd
+        id="article-schema"
+        data={articleSchema({
+          title: article.title,
+          description: article.description,
+          path: `/insights/${article.slug}`,
+          datePublished: article.publicationDate,
+          author: article.author,
+        })}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema([
-              { name: "Home", path: "/" },
-              { name: "Insights", path: "/insights" },
-              { name: article.title, path: `/insights/${article.slug}` },
-            ])
-          ),
-        }}
+      <JsonLd
+        id="breadcrumb-schema"
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Insights", path: "/insights" },
+          { name: article.title, path: `/insights/${article.slug}` },
+        ])}
       />
     </>
   );

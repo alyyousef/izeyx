@@ -11,7 +11,8 @@ import { WorkflowDiagram } from "@/components/diagrams/WorkflowDiagram";
 import { SystemDiagram } from "@/components/diagrams/SystemDiagram";
 import { services, getServiceBySlug, getRelatedServices } from "@/data/services";
 import { serviceDiagrams, integrationsDiagram } from "@/data/service-diagrams";
-import { buildMetadata, breadcrumbSchema } from "@/lib/seo";
+import { buildMetadata, breadcrumbSchema, serviceSchema } from "@/lib/seo";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 type PageParams = { slug: string };
 
@@ -187,17 +188,21 @@ export default async function ServiceDetailPage({ params }: { params: Promise<Pa
         primaryHref={`/contact?service=${service.slug}`}
       />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(
-            breadcrumbSchema([
-              { name: "Home", path: "/" },
-              { name: "Services", path: "/services" },
-              { name: service.name, path: `/services/${service.slug}` },
-            ])
-          ),
-        }}
+      <JsonLd
+        id="service-schema"
+        data={serviceSchema({
+          name: service.name,
+          description: service.summary,
+          path: `/services/${service.slug}`,
+        })}
+      />
+      <JsonLd
+        id="breadcrumb-schema"
+        data={breadcrumbSchema([
+          { name: "Home", path: "/" },
+          { name: "Services", path: "/services" },
+          { name: service.name, path: `/services/${service.slug}` },
+        ])}
       />
     </>
   );

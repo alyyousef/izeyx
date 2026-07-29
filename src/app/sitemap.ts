@@ -21,11 +21,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  const workRoutes: MetadataRoute.Sitemap = getPublishedCaseStudies().map((caseStudy) => ({
-    url: `${siteConfig.url}/work/${caseStudy.slug}`,
-    changeFrequency: "monthly",
-    priority: 0.5,
-  }));
+  const workRoutes: MetadataRoute.Sitemap = getPublishedCaseStudies()
+    .filter((caseStudy) => !caseStudy.clientIsPlaceholder)
+    .map((caseStudy) => ({
+      url: `${siteConfig.url}/work/${caseStudy.slug}`,
+      changeFrequency: "monthly",
+      priority: 0.5,
+    }));
 
   const insightRoutes: MetadataRoute.Sitemap = insightArticles.map((article) => ({
     url: `${siteConfig.url}/insights/${article.slug}`,

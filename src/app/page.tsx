@@ -10,11 +10,14 @@ import { WhyIzeyx } from "@/components/sections/WhyIzeyx";
 import { CtaSection } from "@/components/sections/CtaSection";
 import { buildMetadata } from "@/lib/seo";
 import { siteConfig } from "@/lib/site-config";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { organizationSchema, websiteSchema } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata({
   title: siteConfig.defaultTitle,
   description: siteConfig.defaultDescription,
   path: "/",
+  absoluteTitle: true,
 });
 
 export default function HomePage() {
@@ -34,6 +37,8 @@ export default function HomePage() {
         primaryLabel="Start a conversation"
         primaryHref="/contact"
       />
+      <JsonLd id="organization-schema" data={organizationSchema()} />
+      <JsonLd id="website-schema" data={websiteSchema()} />
     </>
   );
 }

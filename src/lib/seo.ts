@@ -7,7 +7,12 @@ type PageMetadataInput = {
   path: string;
   image?: string;
   noIndex?: boolean;
+  absoluteTitle?: boolean;
 };
+
+function absoluteUrl(path: string) {
+  return new URL(path, `${siteConfig.url}/`).toString();
+}
 
 export function buildMetadata({
   title,
@@ -15,17 +20,18 @@ export function buildMetadata({
   path,
   image = "/opengraph-image",
   noIndex = false,
+  absoluteTitle = false,
 }: PageMetadataInput): Metadata {
-  const url = `${siteConfig.url}${path}`;
+  const url = absoluteUrl(path);
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: title } : title,
     description,
     alternates: {
       canonical: url,
     },
     robots: noIndex
-      ? { index: false, follow: false }
+      ? { index: false, follow: true }
       : { index: true, follow: true },
     openGraph: {
       title,
@@ -46,12 +52,33 @@ export function buildMetadata({
 }
 
 export function organizationSchema() {
+  const organizationId = `${siteConfig.url}/#organization`;
+  const logoUrl = absoluteUrl("/images/brand/izeyx-logo-blue.png");
+
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
+    "@id": organizationId,
     name: siteConfig.name,
+    legalName: siteConfig.legalName,
     url: siteConfig.url,
+    logo: {
+      "@type": "ImageObject",
+      url: logoUrl,
+      width: 512,
+      height: 512,
+    },
+    image: logoUrl,
     description: siteConfig.defaultDescription,
+    email: siteConfig.contact.email.value,
+    telephone: siteConfig.contact.phone.href.replace("tel:", ""),
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "sales",
+      email: siteConfig.contact.email.value,
+      telephone: siteConfig.contact.phone.href.replace("tel:", ""),
+      availableLanguage: ["English"],
+    },
     areaServed: ["EG", "Middle East"],
     address: {
       "@type": "PostalAddress",
@@ -63,6 +90,22 @@ export function organizationSchema() {
   };
 }
 
+export function websiteSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${siteConfig.url}/#website`,
+    url: `${siteConfig.url}/`,
+    name: siteConfig.name,
+    alternateName: "IZEYX Digital Transformation",
+    description: siteConfig.defaultDescription,
+    inLanguage: "en",
+    publisher: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
+  };
+}
+
 export function articleSchema(input: {
   title: string;
   description: string;
@@ -70,22 +113,50 @@ export function articleSchema(input: {
   datePublished: string;
   author: string;
 }) {
+  const url = absoluteUrl(input.path);
+
   return {
     "@context": "https://schema.org",
     "@type": "Article",
+    "@id": `${url}#article`,
     headline: input.title,
     description: input.description,
-    url: `${siteConfig.url}${input.path}`,
+    url,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": url,
+    },
+    image: [absoluteUrl("/opengraph-image")],
     datePublished: input.datePublished,
     author: {
       "@type": "Organization",
       name: input.author,
+      url: absoluteUrl("/about"),
     },
     publisher: {
-      "@type": "Organization",
-      name: siteConfig.name,
-      url: siteConfig.url,
+      "@id": `${siteConfig.url}/#organization`,
     },
+  };
+}
+
+export function serviceSchema(input: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const url = absoluteUrl(input.path);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": `${url}#service`,
+    name: input.name,
+    description: input.description,
+    url,
+    provider: {
+      "@id": `${siteConfig.url}/#organization`,
+    },
+    areaServed: ["EG", "Middle East"],
   };
 }
 
@@ -97,7 +168,11 @@ export function breadcrumbSchema(items: { name: string; path: string }[]) {
       "@type": "ListItem",
       position: index + 1,
       name: item.name,
-      item: `${siteConfig.url}${item.path}`,
+      item: absoluteUrl(item.path),
     })),
   };
+}
+
+export function serializeJsonLd(value: unknown) {
+  return JSON.stringify(value).replace(/</g, "\\u003c");
 }
