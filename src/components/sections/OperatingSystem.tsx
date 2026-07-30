@@ -30,16 +30,16 @@ export function OperatingSystem() {
         {layers.map((layer, index) => (
           <div
             key={layer.label}
-            className="grid grid-cols-[1.5rem_1fr] gap-4 border-t border-border py-5 last:border-b sm:grid-cols-[1.5rem_14rem_1fr] sm:gap-8"
+            className="border-t border-border py-5 last:border-b sm:grid sm:grid-cols-[1.5rem_14rem_1fr] sm:gap-8"
           >
-            <span aria-hidden="true" className="relative flex justify-center">
+            <span aria-hidden="true" className="relative hidden justify-center sm:flex">
               <span className="h-2 w-2 rounded-full bg-primary" />
               {index < layers.length - 1 ? (
                 <span className="absolute top-2 left-1/2 h-[calc(100%+1.25rem)] w-px -translate-x-1/2 bg-border" />
               ) : null}
             </span>
             <p className="text-title text-foreground">{layer.label}</p>
-            <p className="max-w-xl text-muted">{layer.detail}</p>
+            <p className="mt-2 max-w-xl text-muted sm:mt-0">{layer.detail}</p>
           </div>
         ))}
       </div>

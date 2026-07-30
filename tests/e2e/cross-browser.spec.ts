@@ -40,11 +40,11 @@ test("primary navigation works in the active browser layout", async ({ page }, t
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
 });
 
-test("iPhone WebKit exposes the compact diagram and usable contact controls", async ({ page }, testInfo) => {
+test("iPhone WebKit exposes the text system summary and usable contact controls", async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== "webkit-iphone", "iPhone-specific WebKit coverage");
 
   await page.goto("/");
-  await expect(page.locator(".system-diagram-mobile")).toBeVisible();
+  await expect(page.locator(".system-diagram-summary")).toBeVisible();
   await expect(page.locator(".system-diagram-artwork")).toBeHidden();
 
   await page.goto("/contact");

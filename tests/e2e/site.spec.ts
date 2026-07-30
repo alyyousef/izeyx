@@ -100,6 +100,23 @@ for (const route of ["/", "/services", "/contact"]) {
   });
 }
 
+test("contact map defers third-party code until requested", async ({ page }) => {
+  await page.goto("/contact");
+
+  const mapButton = page.getByRole("button", {
+    name: "Load the interactive map for IZEYX in New Cairo",
+  });
+  await expect(mapButton).toBeVisible();
+  await expect(page.getByTitle("Map showing IZEYX in New Cairo")).toHaveCount(0);
+
+  await mapButton.click();
+
+  await expect(page.getByTitle("Map showing IZEYX in New Cairo")).toHaveAttribute(
+    "src",
+    /^https:\/\/www\.google\.com\/maps\/embed/
+  );
+});
+
 test("mobile navigation traps focus, closes with Escape, and restores focus", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
@@ -152,13 +169,13 @@ for (const viewport of responsiveViewports) {
   });
 }
 
-test("navigation and system diagram switch at their intended breakpoints", async ({ page }) => {
+test("navigation and system content switch at their intended breakpoints", async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
 
   await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeHidden();
-  await expect(page.locator(".system-diagram-mobile")).toBeVisible();
+  await expect(page.locator(".system-diagram-summary")).toBeVisible();
   await expect(page.locator(".system-diagram-artwork")).toBeHidden();
 
   // Tablet width: the system diagram's own container is already well past its
@@ -170,11 +187,29 @@ test("navigation and system diagram switch at their intended breakpoints", async
 
   await expect(page.getByRole("button", { name: "Open menu" })).toBeVisible();
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeHidden();
-  await expect(page.locator(".system-diagram-mobile")).toBeHidden();
+  await expect(page.locator(".system-diagram-summary")).toBeHidden();
   await expect(page.locator(".system-diagram-artwork")).toBeVisible();
 
   await page.setViewportSize({ width: 1024, height: 900 });
 
   await expect(page.getByRole("button", { name: "Open menu" })).toBeHidden();
   await expect(page.getByRole("navigation", { name: "Primary" })).toBeVisible();
+});
+
+test("phone layouts replace diagrams and timelines with readable text", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+
+  await page.goto("/");
+  await expect(page.locator(".system-diagram-summary")).toBeVisible();
+  await expect(page.locator(".system-diagram-artwork")).toBeHidden();
+  await expect(page.locator(".process-summary")).toBeVisible();
+  await expect(page.locator(".process-timeline-artwork")).toBeHidden();
+
+  await page.goto("/services/automation");
+  await expect(page.locator(".workflow-summary")).toBeVisible();
+  await expect(page.locator(".workflow-diagram-artwork")).toBeHidden();
+
+  await page.goto("/process");
+  await expect(page.locator(".process-summary")).toBeVisible();
+  await expect(page.locator(".process-timeline-artwork")).toBeHidden();
 });

@@ -9,7 +9,9 @@ module.exports = {
         "http://127.0.0.1:3100/services",
         "http://127.0.0.1:3100/contact",
       ],
-      numberOfRuns: 2,
+      // Three runs produce a real median. With two runs, LHCI may select a
+      // cold-start outlier as the representative result on shared CI runners.
+      numberOfRuns: 3,
       settings: {
         budgetPath: "./lighthouse-budget.json",
         onlyCategories: ["performance", "accessibility", "best-practices", "seo"],

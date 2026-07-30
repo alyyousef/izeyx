@@ -1,13 +1,25 @@
-import * as Sentry from "@sentry/nextjs";
+import { getSentryClient } from "@/lib/client-monitoring";
 
-const tracesSampleRate = Number(process.env.NEXT_PUBLIC_SENTRY_TRACES_SAMPLE_RATE ?? "0");
+// Monitoring is useful, but it is not render-critical. Loading it in idle
+// time keeps SDK evaluation off the first-paint path. Navigations and actual
+// error boundaries still request it immediately when needed.
+if (process.env.NEXT_PUBLIC_SENTRY_DSN) {
+  const startMonitoring = () => {
+    void getSentryClient();
+  };
 
-Sentry.init({
-  dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
-  enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
-  environment: process.env.NEXT_PUBLIC_APP_ENV ?? process.env.NODE_ENV,
-  sendDefaultPii: false,
-  tracesSampleRate: Number.isFinite(tracesSampleRate) ? tracesSampleRate : 0,
-});
+  if (typeof window.requestIdleCallback === "function") {
+    window.requestIdleCallback(startMonitoring, { timeout: 3000 });
+  } else {
+    globalThis.setTimeout(startMonitoring, 1500);
+  }
+}
 
-export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
+export function onRouterTransitionStart(
+  url: string,
+  navigationType: "push" | "replace" | "traverse"
+) {
+  void getSentryClient().then((Sentry) => {
+    Sentry?.captureRouterTransitionStart(url, navigationType);
+  });
+}

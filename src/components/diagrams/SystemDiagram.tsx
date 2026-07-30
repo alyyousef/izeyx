@@ -1,4 +1,3 @@
-import Image from "next/image";
 import appIcon from "../../app/icon.png";
 
 type Node = { label: string };
@@ -30,13 +29,11 @@ function distribute(count: number, start: number, end: number) {
 
 function MobileList({ nodes }: { nodes: Node[] }) {
   return (
-    <ul className="mx-auto flex max-w-sm flex-wrap justify-center gap-2">
+    <ul className="divide-y divide-border border-y border-border">
       {nodes.map((node) => (
-        <li
-          key={node.label}
-          className="flex min-h-11 min-w-[calc(50%-0.25rem)] flex-1 items-center justify-center rounded-sm border border-border bg-surface px-3 py-2 text-center text-sm font-medium text-foreground"
-        >
-          {node.label}
+        <li key={node.label} className="flex items-start gap-3 py-3 text-sm text-foreground">
+          <span aria-hidden="true" className="mt-[0.55rem] h-1.5 w-1.5 shrink-0 rounded-full bg-primary" />
+          <span>{node.label}</span>
         </li>
       ))}
     </ul>
@@ -151,16 +148,18 @@ export function SystemDiagram({ inputs, outputs, caption, className = "" }: Syst
         ))}
       </svg>
 
-      <div className="system-diagram-mobile">
-        <p className="label mb-3 text-center text-muted-soft">Existing systems</p>
-        <MobileList nodes={inputs} />
-        <div aria-hidden="true" className="mx-auto h-6 w-px bg-primary" />
-        <div className="mx-auto flex h-28 w-28 items-center justify-center rounded-full bg-primary">
-          <Image src={appIcon} alt="" width={44} height={44} className="h-11 w-11 object-contain" />
+      <div className="system-diagram-summary">
+        <div>
+          <p className="label mb-3 text-muted-soft">Existing systems</p>
+          <MobileList nodes={inputs} />
         </div>
-        <div aria-hidden="true" className="mx-auto h-6 w-px bg-primary" />
-        <p className="label mb-3 text-center text-muted-soft">Connected outcomes</p>
-        <MobileList nodes={outputs} />
+        <p className="my-7 text-sm leading-relaxed text-muted">
+          IZEYX connects these tools into one operating layer, reducing duplicate work and keeping information consistent.
+        </p>
+        <div>
+          <p className="label mb-3 text-muted-soft">What this enables</p>
+          <MobileList nodes={outputs} />
+        </div>
       </div>
 
       <figcaption className="sr-only">{caption}</figcaption>

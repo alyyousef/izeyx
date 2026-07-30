@@ -10,30 +10,40 @@ type WorkflowDiagramProps = {
 };
 
 /**
- * A labelled sequence joined by directional connectors, used to explain
- * automation and AI workflows (input → reasoning → approval → action) and the
- * homepage operating-system section. See docs/design.md section 4.
+ * Desktop keeps the connected workflow treatment. Narrow screens receive the
+ * same content as a conventional reading sequence without arrows or cards.
  */
 export function WorkflowDiagram({ steps, caption, className = "" }: WorkflowDiagramProps) {
   return (
     <figure className={`m-0 ${className}`}>
-      <ol className="flex flex-col gap-0 lg:flex-row lg:items-stretch lg:gap-0">
+      <ol className="workflow-summary border-y border-border lg:hidden">
         {steps.map((step, index) => (
-          <li key={step.label} className="flex flex-1 flex-col lg:flex-row lg:items-stretch">
+          <li
+            key={step.label}
+            className="grid grid-cols-[2rem_1fr] gap-3 border-b border-border py-5 last:border-b-0"
+          >
+            <span className="text-meta pt-0.5 text-primary-text">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <div>
+              <p className="text-title text-foreground">{step.label}</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-muted">{step.description}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <ol className="workflow-diagram-artwork hidden flex-row items-stretch lg:flex">
+        {steps.map((step, index) => (
+          <li key={step.label} className="flex flex-1 flex-row items-stretch">
             <div className="flex flex-1 flex-col gap-2 border border-border-strong/40 bg-surface px-5 py-6">
-              <span className="label text-primary-text">{`0${index + 1}`}</span>
+              <span className="label text-primary-text">{String(index + 1).padStart(2, "0")}</span>
               <p className="text-title text-foreground">{step.label}</p>
               <p className="text-sm text-muted">{step.description}</p>
             </div>
             {index < steps.length - 1 ? (
-              <div
-                aria-hidden="true"
-                className="flex shrink-0 items-center justify-center py-1 text-muted-soft lg:w-10 lg:py-0"
-              >
-                <span className="text-lg lg:rotate-0" aria-hidden="true">
-                  <span className="block lg:hidden">↓</span>
-                  <span className="hidden lg:block">→</span>
-                </span>
+              <div aria-hidden="true" className="flex w-10 shrink-0 items-center justify-center text-lg text-muted-soft">
+                →
               </div>
             ) : null}
           </li>

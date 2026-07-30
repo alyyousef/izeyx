@@ -302,7 +302,7 @@ p {
   display: block;
 }
 
-.system-diagram-mobile {
+.system-diagram-summary {
   display: none;
 }
 
@@ -311,7 +311,7 @@ p {
     display: none;
   }
 
-  .system-diagram-mobile {
+  .system-diagram-summary {
     display: block;
   }
 }
